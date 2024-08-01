@@ -68,7 +68,13 @@ func terraformProviderConfigurationBuilder(creds zitadelConfig) (terraform.Provi
 // TerraformSetupBuilder builds Terraform a terraform.SetupFn function which returns Terraform provider setup configuration
 func TerraformSetupBuilder(version, providerSource, providerVersion string) terraform.SetupFn {
 	return func(ctx context.Context, client client.Client, mg resource.Managed) (terraform.Setup, error) {
-		ps := terraform.Setup{}
+		ps := terraform.Setup{
+			Version: version,
+			Requirement: terraform.ProviderRequirement{
+				Source:  providerSource,
+				Version: providerVersion,
+			},
+		}
 
 		configRef := mg.GetProviderConfigReference()
 		if configRef == nil {
