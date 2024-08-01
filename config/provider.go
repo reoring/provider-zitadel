@@ -11,6 +11,11 @@ import (
 	ujconfig "github.com/crossplane/upjet/pkg/config"
 
 	"github.com/reoring/provider-zitadel/config/action"
+	"github.com/reoring/provider-zitadel/config/project"
+	"github.com/reoring/provider-zitadel/config/org"
+	"github.com/reoring/provider-zitadel/config/org_idp_github"
+	"github.com/reoring/provider-zitadel/config/application_oidc"
+	"github.com/reoring/provider-zitadel/config/application_oidc_credentials"
 )
 
 const (
@@ -37,6 +42,11 @@ func GetProvider() *ujconfig.Provider {
 	for _, configure := range []func(provider *ujconfig.Provider){
 		// add custom config functions
 		zitadel_action.Configure,
+		zitadel_org.Configure,
+		zitadel_org_idp_github.Configure,
+		zitadel_application_oidc.Configure,
+		zitadel_application_oidc_credentials.Configure,
+		zitadel_project.Configure,
 	} {
 		configure(pc)
 	}
