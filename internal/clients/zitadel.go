@@ -33,6 +33,7 @@ const (
 	keyInsecure              = "insecure"
 	keyPort                  = "port"
 	keyJwtProfileFile        = "jwt_profile_file"
+	keyJwtProfileJson        = "jwt_profile_json"
 )
 
 type zitadelConfig struct {
@@ -40,6 +41,7 @@ type zitadelConfig struct {
 	Insecure           *string `json:"insecure,omitempty"`
 	Port               *string `json:"port,omitempty"`
 	JwtProfileFile     *string `json:"jwt_profile_file,omitempty"`
+	JwtProfileJson *string `json:"jwt_profile_json,omitempty"`
 }
 
 func terraformProviderConfigurationBuilder(creds zitadelConfig) (terraform.ProviderConfiguration, error) {
@@ -60,6 +62,10 @@ func terraformProviderConfigurationBuilder(creds zitadelConfig) (terraform.Provi
 
 	if creds.JwtProfileFile != nil {
 		cnf[keyJwtProfileFile] = *creds.JwtProfileFile
+	}
+	
+	if creds.JwtProfileJson != nil {
+		cnf[keyJwtProfileJson] = *creds.JwtProfileJson
 	}
 
 	return cnf, nil
