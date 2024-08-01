@@ -4,9 +4,9 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.13.0
-  name: idpgithubs.org_idp_github.reoring.io
+  name: idpgithubs.orgidpgithub.reoring.io
 spec:
-  group: org_idp_github.reoring.io
+  group: orgidpgithub.reoring.io
   names:
     categories:
     - crossplane
@@ -450,3 +450,4 @@ spec:
     storage: true
     subresources:
       status: {}
+

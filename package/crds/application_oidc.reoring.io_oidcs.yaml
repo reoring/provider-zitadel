@@ -4,9 +4,9 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.13.0
-  name: oidcs.application_oidc.reoring.io
+  name: oidcs.applicationoidc.reoring.io
 spec:
-  group: application_oidc.reoring.io
+  group: applicationoidc.reoring.io
   names:
     categories:
     - crossplane
