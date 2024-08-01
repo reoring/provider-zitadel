@@ -15,6 +15,10 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 
 	v1alpha1 "github.com/reoring/provider-zitadel/apis/action/v1alpha1"
+	v1alpha1application_oidc "github.com/reoring/provider-zitadel/apis/application_oidc/v1alpha1"
+	v1alpha1org "github.com/reoring/provider-zitadel/apis/org/v1alpha1"
+	v1alpha1org_idp_github "github.com/reoring/provider-zitadel/apis/org_idp_github/v1alpha1"
+	v1alpha1project "github.com/reoring/provider-zitadel/apis/project/v1alpha1"
 	v1alpha1apis "github.com/reoring/provider-zitadel/apis/v1alpha1"
 	v1beta1 "github.com/reoring/provider-zitadel/apis/v1beta1"
 )
@@ -23,6 +27,10 @@ func init() {
 	// Register the types with the Scheme so the components can map objects to GroupVersionKinds and back
 	AddToSchemes = append(AddToSchemes,
 		v1alpha1.SchemeBuilder.AddToScheme,
+		v1alpha1application_oidc.SchemeBuilder.AddToScheme,
+		v1alpha1org.SchemeBuilder.AddToScheme,
+		v1alpha1org_idp_github.SchemeBuilder.AddToScheme,
+		v1alpha1project.SchemeBuilder.AddToScheme,
 		v1alpha1apis.SchemeBuilder.AddToScheme,
 		v1beta1.SchemeBuilder.AddToScheme,
 	)
