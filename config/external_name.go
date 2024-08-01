@@ -11,10 +11,10 @@ import "github.com/crossplane/upjet/pkg/config"
 var ExternalNameConfigs = map[string]config.ExternalName{
 	// Import requires using a randomly generated ID from provider: nl-2e21sda
 	"org":                          config.NameAsIdentifier,
-	"org_idp_github":               config.NameAsIdentifier,
+	"org-idp-github":               config.NameAsIdentifier,
 	"project":                      config.NameAsIdentifier,
-	"application_oidc":             config.NameAsIdentifier,
-	"application_oidc_credentials": config.NameAsIdentifier,
+	"application-oidc":             config.NameAsIdentifier,
+	"application-oidc-credentials": config.NameAsIdentifier,
 	"action":                       config.NameAsIdentifier,
 }
 
