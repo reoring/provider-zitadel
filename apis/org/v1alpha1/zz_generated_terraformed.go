@@ -100,3 +100,87 @@ func (tr *Org) LateInitialize(attrs []byte) (bool, error) {
 func (tr *Org) GetTerraformSchemaVersion() int {
 	return 0
 }
+
+// GetTerraformResourceType returns Terraform resource type for this OrgIDPGithub
+func (mg *OrgIDPGithub) GetTerraformResourceType() string {
+	return "zitadel_org_idp_github"
+}
+
+// GetConnectionDetailsMapping for this OrgIDPGithub
+func (tr *OrgIDPGithub) GetConnectionDetailsMapping() map[string]string {
+	return map[string]string{"client_secret": "spec.forProvider.clientSecretSecretRef"}
+}
+
+// GetObservation of this OrgIDPGithub
+func (tr *OrgIDPGithub) GetObservation() (map[string]any, error) {
+	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(o, &base)
+}
+
+// SetObservation for this OrgIDPGithub
+func (tr *OrgIDPGithub) SetObservation(obs map[string]any) error {
+	p, err := json.TFParser.Marshal(obs)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Status.AtProvider)
+}
+
+// GetID returns ID of underlying Terraform resource of this OrgIDPGithub
+func (tr *OrgIDPGithub) GetID() string {
+	if tr.Status.AtProvider.ID == nil {
+		return ""
+	}
+	return *tr.Status.AtProvider.ID
+}
+
+// GetParameters of this OrgIDPGithub
+func (tr *OrgIDPGithub) GetParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
+// SetParameters for this OrgIDPGithub
+func (tr *OrgIDPGithub) SetParameters(params map[string]any) error {
+	p, err := json.TFParser.Marshal(params)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// GetInitParameters of this OrgIDPGithub
+func (tr *OrgIDPGithub) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
+// LateInitialize this OrgIDPGithub using its observed tfState.
+// returns True if there are any spec changes for the resource.
+func (tr *OrgIDPGithub) LateInitialize(attrs []byte) (bool, error) {
+	params := &OrgIDPGithubParameters{}
+	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
+		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
+	}
+	opts := []resource.GenericLateInitializerOption{resource.WithZeroValueJSONOmitEmptyFilter(resource.CNameWildcard)}
+
+	li := resource.NewGenericLateInitializer(opts...)
+	return li.LateInitialize(&tr.Spec.ForProvider, params)
+}
+
+// GetTerraformSchemaVersion returns the associated Terraform schema version
+func (tr *OrgIDPGithub) GetTerraformSchemaVersion() int {
+	return 0
+}

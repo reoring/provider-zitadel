@@ -17,7 +17,7 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type OidcInitParameters struct {
+type ApplicationOIDCInitParameters struct {
 
 	// (Boolean) Access token role assertion
 	// Access token role assertion
@@ -84,7 +84,7 @@ type OidcInitParameters struct {
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
-type OidcObservation struct {
+type ApplicationOIDCObservation struct {
 
 	// (Boolean) Access token role assertion
 	// Access token role assertion
@@ -154,7 +154,7 @@ type OidcObservation struct {
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
-type OidcParameters struct {
+type ApplicationOIDCParameters struct {
 
 	// (Boolean) Access token role assertion
 	// Access token role assertion
@@ -237,10 +237,10 @@ type OidcParameters struct {
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
-// OidcSpec defines the desired state of Oidc
-type OidcSpec struct {
+// ApplicationOIDCSpec defines the desired state of ApplicationOIDC
+type ApplicationOIDCSpec struct {
 	v1.ResourceSpec `json:",inline"`
-	ForProvider     OidcParameters `json:"forProvider"`
+	ForProvider     ApplicationOIDCParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -251,52 +251,52 @@ type OidcSpec struct {
 	// required on creation, but we do not desire to update them after creation,
 	// for example because of an external controller is managing them, like an
 	// autoscaler.
-	InitProvider OidcInitParameters `json:"initProvider,omitempty"`
+	InitProvider ApplicationOIDCInitParameters `json:"initProvider,omitempty"`
 }
 
-// OidcStatus defines the observed state of Oidc.
-type OidcStatus struct {
+// ApplicationOIDCStatus defines the observed state of ApplicationOIDC.
+type ApplicationOIDCStatus struct {
 	v1.ResourceStatus `json:",inline"`
-	AtProvider        OidcObservation `json:"atProvider,omitempty"`
+	AtProvider        ApplicationOIDCObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// Oidc is the Schema for the Oidcs API. Resource representing an OIDC application belonging to a project, with all configuration possibilities.
+// ApplicationOIDC is the Schema for the ApplicationOIDCs API. Resource representing an OIDC application belonging to a project, with all configuration possibilities.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
 // +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,zitadel}
-type Oidc struct {
+type ApplicationOIDC struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.grantTypes) || (has(self.initProvider) && has(self.initProvider.grantTypes))",message="spec.forProvider.grantTypes is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.projectId) || (has(self.initProvider) && has(self.initProvider.projectId))",message="spec.forProvider.projectId is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.redirectUris) || (has(self.initProvider) && has(self.initProvider.redirectUris))",message="spec.forProvider.redirectUris is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.responseTypes) || (has(self.initProvider) && has(self.initProvider.responseTypes))",message="spec.forProvider.responseTypes is a required parameter"
-	Spec   OidcSpec   `json:"spec"`
-	Status OidcStatus `json:"status,omitempty"`
+	Spec   ApplicationOIDCSpec   `json:"spec"`
+	Status ApplicationOIDCStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// OidcList contains a list of Oidcs
-type OidcList struct {
+// ApplicationOIDCList contains a list of ApplicationOIDCs
+type ApplicationOIDCList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []Oidc `json:"items"`
+	Items           []ApplicationOIDC `json:"items"`
 }
 
 // Repository type metadata.
 var (
-	Oidc_Kind             = "Oidc"
-	Oidc_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: Oidc_Kind}.String()
-	Oidc_KindAPIVersion   = Oidc_Kind + "." + CRDGroupVersion.String()
-	Oidc_GroupVersionKind = CRDGroupVersion.WithKind(Oidc_Kind)
+	ApplicationOIDC_Kind             = "ApplicationOIDC"
+	ApplicationOIDC_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: ApplicationOIDC_Kind}.String()
+	ApplicationOIDC_KindAPIVersion   = ApplicationOIDC_Kind + "." + CRDGroupVersion.String()
+	ApplicationOIDC_GroupVersionKind = CRDGroupVersion.WithKind(ApplicationOIDC_Kind)
 )
 
 func init() {
-	SchemeBuilder.Register(&Oidc{}, &OidcList{})
+	SchemeBuilder.Register(&ApplicationOIDC{}, &ApplicationOIDCList{})
 }

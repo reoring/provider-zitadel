@@ -7,6 +7,7 @@ func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("zitadel_application_oidc", func(r *config.Resource) {
 		// We need to override the default group that upjet generated for
 		// this resource, which would be "github"
-		r.ShortGroup = "application_oidc"
+		r.ShortGroup = "application"
+		r.Kind = "ApplicationOIDC"
 	})
 }

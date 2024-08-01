@@ -1,8 +1,8 @@
-apiVersion: application_oidc.reoring.io/v1alpha1
-kind: Oidc
+apiVersion: application.reoring.io/v1alpha1
+kind: ApplicationOIDC
 metadata:
   annotations:
-    meta.upbound.io/example-id: application_oidc/v1alpha1/oidc
+    meta.upbound.io/example-id: application/v1alpha1/applicationoidc
   labels:
     testing.upbound.io/example-name: default
   name: default

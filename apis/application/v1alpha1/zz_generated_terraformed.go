@@ -17,18 +17,18 @@ import (
 	"github.com/crossplane/upjet/pkg/resource/json"
 )
 
-// GetTerraformResourceType returns Terraform resource type for this Oidc
-func (mg *Oidc) GetTerraformResourceType() string {
+// GetTerraformResourceType returns Terraform resource type for this ApplicationOIDC
+func (mg *ApplicationOIDC) GetTerraformResourceType() string {
 	return "zitadel_application_oidc"
 }
 
-// GetConnectionDetailsMapping for this Oidc
-func (tr *Oidc) GetConnectionDetailsMapping() map[string]string {
+// GetConnectionDetailsMapping for this ApplicationOIDC
+func (tr *ApplicationOIDC) GetConnectionDetailsMapping() map[string]string {
 	return map[string]string{"client_id": "status.atProvider.clientId", "client_secret": "status.atProvider.clientSecret"}
 }
 
-// GetObservation of this Oidc
-func (tr *Oidc) GetObservation() (map[string]any, error) {
+// GetObservation of this ApplicationOIDC
+func (tr *ApplicationOIDC) GetObservation() (map[string]any, error) {
 	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
 	if err != nil {
 		return nil, err
@@ -37,8 +37,8 @@ func (tr *Oidc) GetObservation() (map[string]any, error) {
 	return base, json.TFParser.Unmarshal(o, &base)
 }
 
-// SetObservation for this Oidc
-func (tr *Oidc) SetObservation(obs map[string]any) error {
+// SetObservation for this ApplicationOIDC
+func (tr *ApplicationOIDC) SetObservation(obs map[string]any) error {
 	p, err := json.TFParser.Marshal(obs)
 	if err != nil {
 		return err
@@ -46,16 +46,16 @@ func (tr *Oidc) SetObservation(obs map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Status.AtProvider)
 }
 
-// GetID returns ID of underlying Terraform resource of this Oidc
-func (tr *Oidc) GetID() string {
+// GetID returns ID of underlying Terraform resource of this ApplicationOIDC
+func (tr *ApplicationOIDC) GetID() string {
 	if tr.Status.AtProvider.ID == nil {
 		return ""
 	}
 	return *tr.Status.AtProvider.ID
 }
 
-// GetParameters of this Oidc
-func (tr *Oidc) GetParameters() (map[string]any, error) {
+// GetParameters of this ApplicationOIDC
+func (tr *ApplicationOIDC) GetParameters() (map[string]any, error) {
 	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
 	if err != nil {
 		return nil, err
@@ -64,8 +64,8 @@ func (tr *Oidc) GetParameters() (map[string]any, error) {
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
-// SetParameters for this Oidc
-func (tr *Oidc) SetParameters(params map[string]any) error {
+// SetParameters for this ApplicationOIDC
+func (tr *ApplicationOIDC) SetParameters(params map[string]any) error {
 	p, err := json.TFParser.Marshal(params)
 	if err != nil {
 		return err
@@ -73,8 +73,8 @@ func (tr *Oidc) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
-// GetInitParameters of this Oidc
-func (tr *Oidc) GetInitParameters() (map[string]any, error) {
+// GetInitParameters of this ApplicationOIDC
+func (tr *ApplicationOIDC) GetInitParameters() (map[string]any, error) {
 	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
 	if err != nil {
 		return nil, err
@@ -83,10 +83,10 @@ func (tr *Oidc) GetInitParameters() (map[string]any, error) {
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
-// LateInitialize this Oidc using its observed tfState.
+// LateInitialize this ApplicationOIDC using its observed tfState.
 // returns True if there are any spec changes for the resource.
-func (tr *Oidc) LateInitialize(attrs []byte) (bool, error) {
-	params := &OidcParameters{}
+func (tr *ApplicationOIDC) LateInitialize(attrs []byte) (bool, error) {
+	params := &ApplicationOIDCParameters{}
 	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
 		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
 	}
@@ -97,6 +97,6 @@ func (tr *Oidc) LateInitialize(attrs []byte) (bool, error) {
 }
 
 // GetTerraformSchemaVersion returns the associated Terraform schema version
-func (tr *Oidc) GetTerraformSchemaVersion() int {
+func (tr *ApplicationOIDC) GetTerraformSchemaVersion() int {
 	return 0
 }

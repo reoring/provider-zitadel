@@ -1,8 +1,8 @@
-apiVersion: org_idp_github.reoring.io/v1alpha1
-kind: IdpGithub
+apiVersion: org.reoring.io/v1alpha1
+kind: OrgIDPGithub
 metadata:
   annotations:
-    meta.upbound.io/example-id: org_idp_github/v1alpha1/idpgithub
+    meta.upbound.io/example-id: org/v1alpha1/orgidpgithub
   labels:
     testing.upbound.io/example-name: default
   name: default
