@@ -9,7 +9,7 @@ func Configure(p *config.Provider) {
 
 		r.ExternalName = config.IdentifierFromProvider
 
-		r.References["org"] = config.Reference{
+		r.References["org_id"] = config.Reference{
 			TerraformName: "zitadel_org",
 		}
 	})
