@@ -23,6 +23,10 @@ type ProjectInitParameters struct {
 	// ZITADEL checks if the org of the user has permission to this project
 	HasProjectCheck *bool `json:"hasProjectCheck,omitempty" tf:"has_project_check,omitempty"`
 
+	// (String) Name of the project
+	// Name of the project
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
 	// (String) ID of the organization
 	// ID of the organization
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
@@ -48,6 +52,10 @@ type ProjectObservation struct {
 
 	// (String) The ID of this resource.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// (String) Name of the project
+	// Name of the project
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// (String) ID of the organization
 	// ID of the organization
@@ -76,6 +84,11 @@ type ProjectParameters struct {
 	// ZITADEL checks if the org of the user has permission to this project
 	// +kubebuilder:validation:Optional
 	HasProjectCheck *bool `json:"hasProjectCheck,omitempty" tf:"has_project_check,omitempty"`
+
+	// (String) Name of the project
+	// Name of the project
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// (String) ID of the organization
 	// ID of the organization
@@ -133,8 +146,9 @@ type ProjectStatus struct {
 type Project struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ProjectSpec   `json:"spec"`
-	Status            ProjectStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
+	Spec   ProjectSpec   `json:"spec"`
+	Status ProjectStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

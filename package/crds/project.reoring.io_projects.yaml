@@ -73,6 +73,9 @@ spec:
                       permission to this project ZITADEL checks if the org of the
                       user has permission to this project
                     type: boolean
+                  name:
+                    description: (String) Name of the project Name of the project
+                    type: string
                   orgId:
                     description: (String) ID of the organization ID of the organization
                     type: string
@@ -112,6 +115,9 @@ spec:
                       permission to this project ZITADEL checks if the org of the
                       user has permission to this project
                     type: boolean
+                  name:
+                    description: (String) Name of the project Name of the project
+                    type: string
                   orgId:
                     description: (String) ID of the organization ID of the organization
                     type: string
@@ -294,6 +300,11 @@ spec:
             required:
             - forProvider
             type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.name is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
+                || (has(self.initProvider) && has(self.initProvider.name))'
           status:
             description: ProjectStatus defines the observed state of Project.
             properties:
@@ -306,6 +317,9 @@ spec:
                     type: boolean
                   id:
                     description: (String) The ID of this resource.
+                    type: string
+                  name:
+                    description: (String) Name of the project Name of the project
                     type: string
                   orgId:
                     description: (String) ID of the organization ID of the organization

@@ -9,6 +9,7 @@ metadata:
 spec:
   forProvider:
     hasProjectCheck: true
+    name: projectname
     orgId: ${data.zitadel_org.default.id}
     privateLabelingSetting: PRIVATE_LABELING_SETTING_ENFORCE_PROJECT_RESOURCE_OWNER_POLICY
     projectRoleAssertion: true
