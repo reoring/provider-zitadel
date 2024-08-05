@@ -22,6 +22,10 @@ type OrgInitParameters struct {
 	// (Boolean) True sets the org as default org for the instance. Only one org can be default org. Nothing happens if you set it to false until you set another org as default org.
 	// True sets the org as default org for the instance. Only one org can be default org. Nothing happens if you set it to false until you set another org as default org.
 	IsDefault *bool `json:"isDefault,omitempty" tf:"is_default,omitempty"`
+
+	// (String) Name of the org
+	// Name of the org
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 type OrgObservation struct {
@@ -32,6 +36,10 @@ type OrgObservation struct {
 	// (Boolean) True sets the org as default org for the instance. Only one org can be default org. Nothing happens if you set it to false until you set another org as default org.
 	// True sets the org as default org for the instance. Only one org can be default org. Nothing happens if you set it to false until you set another org as default org.
 	IsDefault *bool `json:"isDefault,omitempty" tf:"is_default,omitempty"`
+
+	// (String) Name of the org
+	// Name of the org
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// (String) Primary domain of the org
 	// Primary domain of the org
@@ -48,6 +56,11 @@ type OrgParameters struct {
 	// True sets the org as default org for the instance. Only one org can be default org. Nothing happens if you set it to false until you set another org as default org.
 	// +kubebuilder:validation:Optional
 	IsDefault *bool `json:"isDefault,omitempty" tf:"is_default,omitempty"`
+
+	// (String) Name of the org
+	// Name of the org
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 // OrgSpec defines the desired state of Org
@@ -85,8 +98,9 @@ type OrgStatus struct {
 type Org struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              OrgSpec   `json:"spec"`
-	Status            OrgStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
+	Spec   OrgSpec   `json:"spec"`
+	Status OrgStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
