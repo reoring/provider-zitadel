@@ -59,17 +59,9 @@ type ApplicationOIDCInitParameters struct {
 	// Token userinfo assertion
 	IDTokenUserinfoAssertion *bool `json:"idTokenUserinfoAssertion,omitempty" tf:"id_token_userinfo_assertion,omitempty"`
 
-	// (String) ID of the organization
-	// ID of the organization
-	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
-
 	// (List of String) Post logout redirect URIs
 	// Post logout redirect URIs
 	PostLogoutRedirectUris []*string `json:"postLogoutRedirectUris,omitempty" tf:"post_logout_redirect_uris,omitempty"`
-
-	// (String) ID of the project
-	// ID of the project
-	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// (List of String) RedirectURIs
 	// RedirectURIs
@@ -208,8 +200,17 @@ type ApplicationOIDCParameters struct {
 
 	// (String) ID of the organization
 	// ID of the organization
+	// +crossplane:generate:reference:type=github.com/reoring/provider-zitadel/apis/org/v1alpha1.Org
 	// +kubebuilder:validation:Optional
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
+
+	// Reference to a Org in org to populate orgId.
+	// +kubebuilder:validation:Optional
+	OrgIDRef *v1.Reference `json:"orgIdRef,omitempty" tf:"-"`
+
+	// Selector for a Org in org to populate orgId.
+	// +kubebuilder:validation:Optional
+	OrgIDSelector *v1.Selector `json:"orgIdSelector,omitempty" tf:"-"`
 
 	// (List of String) Post logout redirect URIs
 	// Post logout redirect URIs
@@ -218,8 +219,17 @@ type ApplicationOIDCParameters struct {
 
 	// (String) ID of the project
 	// ID of the project
+	// +crossplane:generate:reference:type=github.com/reoring/provider-zitadel/apis/project/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in project to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in project to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// (List of String) RedirectURIs
 	// RedirectURIs
@@ -273,7 +283,6 @@ type ApplicationOIDC struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.grantTypes) || (has(self.initProvider) && has(self.initProvider.grantTypes))",message="spec.forProvider.grantTypes is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.projectId) || (has(self.initProvider) && has(self.initProvider.projectId))",message="spec.forProvider.projectId is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.redirectUris) || (has(self.initProvider) && has(self.initProvider.redirectUris))",message="spec.forProvider.redirectUris is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.responseTypes) || (has(self.initProvider) && has(self.initProvider.responseTypes))",message="spec.forProvider.responseTypes is a required parameter"
 	Spec   ApplicationOIDCSpec   `json:"spec"`

@@ -9,6 +9,7 @@ Copyright 2022 Upbound Inc.
 package v1alpha1
 
 import (
+	"github.com/crossplane/crossplane-runtime/apis/common/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -104,11 +105,6 @@ func (in *ApplicationOIDCInitParameters) DeepCopyInto(out *ApplicationOIDCInitPa
 		*out = new(bool)
 		**out = **in
 	}
-	if in.OrgID != nil {
-		in, out := &in.OrgID, &out.OrgID
-		*out = new(string)
-		**out = **in
-	}
 	if in.PostLogoutRedirectUris != nil {
 		in, out := &in.PostLogoutRedirectUris, &out.PostLogoutRedirectUris
 		*out = make([]*string, len(*in))
@@ -119,11 +115,6 @@ func (in *ApplicationOIDCInitParameters) DeepCopyInto(out *ApplicationOIDCInitPa
 				**out = **in
 			}
 		}
-	}
-	if in.ProjectID != nil {
-		in, out := &in.ProjectID, &out.ProjectID
-		*out = new(string)
-		**out = **in
 	}
 	if in.RedirectUris != nil {
 		in, out := &in.RedirectUris, &out.RedirectUris
@@ -396,6 +387,16 @@ func (in *ApplicationOIDCParameters) DeepCopyInto(out *ApplicationOIDCParameters
 		*out = new(string)
 		**out = **in
 	}
+	if in.OrgIDRef != nil {
+		in, out := &in.OrgIDRef, &out.OrgIDRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.OrgIDSelector != nil {
+		in, out := &in.OrgIDSelector, &out.OrgIDSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.PostLogoutRedirectUris != nil {
 		in, out := &in.PostLogoutRedirectUris, &out.PostLogoutRedirectUris
 		*out = make([]*string, len(*in))
@@ -411,6 +412,16 @@ func (in *ApplicationOIDCParameters) DeepCopyInto(out *ApplicationOIDCParameters
 		in, out := &in.ProjectID, &out.ProjectID
 		*out = new(string)
 		**out = **in
+	}
+	if in.ProjectIDRef != nil {
+		in, out := &in.ProjectIDRef, &out.ProjectIDRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ProjectIDSelector != nil {
+		in, out := &in.ProjectIDSelector, &out.ProjectIDSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.RedirectUris != nil {
 		in, out := &in.RedirectUris, &out.RedirectUris
