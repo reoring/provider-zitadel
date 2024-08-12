@@ -10,6 +10,8 @@ func Configure(p *config.Provider) {
 		r.ShortGroup = "application"
 		r.Kind = "ApplicationOIDC"
 
+		r.ExternalName = config.IdentifierFromProvider
+
 		r.References["org_id"] = config.Reference{
 			TerraformName: "zitadel_org",
 		}

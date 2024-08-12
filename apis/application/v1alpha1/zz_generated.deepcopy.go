@@ -105,6 +105,11 @@ func (in *ApplicationOIDCInitParameters) DeepCopyInto(out *ApplicationOIDCInitPa
 		*out = new(bool)
 		**out = **in
 	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
 	if in.PostLogoutRedirectUris != nil {
 		in, out := &in.PostLogoutRedirectUris, &out.PostLogoutRedirectUris
 		*out = make([]*string, len(*in))
@@ -257,6 +262,11 @@ func (in *ApplicationOIDCObservation) DeepCopyInto(out *ApplicationOIDCObservati
 		*out = new(bool)
 		**out = **in
 	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
 	if in.OrgID != nil {
 		in, out := &in.OrgID, &out.OrgID
 		*out = new(string)
@@ -380,6 +390,11 @@ func (in *ApplicationOIDCParameters) DeepCopyInto(out *ApplicationOIDCParameters
 	if in.IDTokenUserinfoAssertion != nil {
 		in, out := &in.IDTokenUserinfoAssertion, &out.IDTokenUserinfoAssertion
 		*out = new(bool)
+		**out = **in
+	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
 		**out = **in
 	}
 	if in.OrgID != nil {

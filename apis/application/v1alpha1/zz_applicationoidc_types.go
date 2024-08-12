@@ -59,6 +59,10 @@ type ApplicationOIDCInitParameters struct {
 	// Token userinfo assertion
 	IDTokenUserinfoAssertion *bool `json:"idTokenUserinfoAssertion,omitempty" tf:"id_token_userinfo_assertion,omitempty"`
 
+	// (String) Name of the application
+	// Name of the application
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
 	// (List of String) Post logout redirect URIs
 	// Post logout redirect URIs
 	PostLogoutRedirectUris []*string `json:"postLogoutRedirectUris,omitempty" tf:"post_logout_redirect_uris,omitempty"`
@@ -120,6 +124,10 @@ type ApplicationOIDCObservation struct {
 	// (Boolean) Token userinfo assertion
 	// Token userinfo assertion
 	IDTokenUserinfoAssertion *bool `json:"idTokenUserinfoAssertion,omitempty" tf:"id_token_userinfo_assertion,omitempty"`
+
+	// (String) Name of the application
+	// Name of the application
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// (String) ID of the organization
 	// ID of the organization
@@ -197,6 +205,11 @@ type ApplicationOIDCParameters struct {
 	// Token userinfo assertion
 	// +kubebuilder:validation:Optional
 	IDTokenUserinfoAssertion *bool `json:"idTokenUserinfoAssertion,omitempty" tf:"id_token_userinfo_assertion,omitempty"`
+
+	// (String) Name of the application
+	// Name of the application
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// (String) ID of the organization
 	// ID of the organization
@@ -283,6 +296,7 @@ type ApplicationOIDC struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.grantTypes) || (has(self.initProvider) && has(self.initProvider.grantTypes))",message="spec.forProvider.grantTypes is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.redirectUris) || (has(self.initProvider) && has(self.initProvider.redirectUris))",message="spec.forProvider.redirectUris is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.responseTypes) || (has(self.initProvider) && has(self.initProvider.responseTypes))",message="spec.forProvider.responseTypes is a required parameter"
 	Spec   ApplicationOIDCSpec   `json:"spec"`
