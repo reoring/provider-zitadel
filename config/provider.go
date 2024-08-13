@@ -12,6 +12,7 @@ import (
 
 	zitadel_action "github.com/reoring/provider-zitadel/config/action"
 	zitadel_application_oidc "github.com/reoring/provider-zitadel/config/application_oidc"
+	zitadel_login_policy "github.com/reoring/provider-zitadel/config/login_policy"
 	zitadel_org "github.com/reoring/provider-zitadel/config/org"
 	zitadel_org_idp_github "github.com/reoring/provider-zitadel/config/org_idp_github"
 	zitadel_project "github.com/reoring/provider-zitadel/config/project"
@@ -45,6 +46,7 @@ func GetProvider() *ujconfig.Provider {
 		zitadel_org_idp_github.Configure,
 		zitadel_application_oidc.Configure,
 		zitadel_project.Configure,
+		zitadel_login_policy.Configure,
 	} {
 		configure(pc)
 	}

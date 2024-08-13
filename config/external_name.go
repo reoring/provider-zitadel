@@ -16,6 +16,7 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"zitadel_application_oidc":             config.NameAsIdentifier,
 	"zitadel_application_oidc_credentials": config.NameAsIdentifier,
 	"zitadel_action":                       config.NameAsIdentifier,
+	"zitadel_login_policy":                 config.NameAsIdentifier,
 }
 
 // ExternalNameConfigurations applies all external name configs listed in the

@@ -11,6 +11,7 @@ import (
 
 	action "github.com/reoring/provider-zitadel/internal/controller/action/action"
 	applicationoidc "github.com/reoring/provider-zitadel/internal/controller/application/applicationoidc"
+	loginpolicy "github.com/reoring/provider-zitadel/internal/controller/login/loginpolicy"
 	org "github.com/reoring/provider-zitadel/internal/controller/org/org"
 	orgidpgithub "github.com/reoring/provider-zitadel/internal/controller/org/orgidpgithub"
 	project "github.com/reoring/provider-zitadel/internal/controller/project/project"
@@ -23,6 +24,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		action.Setup,
 		applicationoidc.Setup,
+		loginpolicy.Setup,
 		org.Setup,
 		orgidpgithub.Setup,
 		project.Setup,

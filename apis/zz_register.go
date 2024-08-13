@@ -16,6 +16,7 @@ import (
 
 	v1alpha1 "github.com/reoring/provider-zitadel/apis/action/v1alpha1"
 	v1alpha1application "github.com/reoring/provider-zitadel/apis/application/v1alpha1"
+	v1alpha1login "github.com/reoring/provider-zitadel/apis/login/v1alpha1"
 	v1alpha1org "github.com/reoring/provider-zitadel/apis/org/v1alpha1"
 	v1alpha1project "github.com/reoring/provider-zitadel/apis/project/v1alpha1"
 	v1alpha1apis "github.com/reoring/provider-zitadel/apis/v1alpha1"
@@ -27,6 +28,7 @@ func init() {
 	AddToSchemes = append(AddToSchemes,
 		v1alpha1.SchemeBuilder.AddToScheme,
 		v1alpha1application.SchemeBuilder.AddToScheme,
+		v1alpha1login.SchemeBuilder.AddToScheme,
 		v1alpha1org.SchemeBuilder.AddToScheme,
 		v1alpha1project.SchemeBuilder.AddToScheme,
 		v1alpha1apis.SchemeBuilder.AddToScheme,
