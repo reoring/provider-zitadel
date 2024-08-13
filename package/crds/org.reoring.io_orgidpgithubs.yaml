@@ -113,6 +113,9 @@ spec:
                       users should be able to link an existing ZITADEL user with an
                       external account
                     type: boolean
+                  name:
+                    description: (String) Name of the IDP Name of the IDP
+                    type: string
                   orgId:
                     description: (String) ID of the organization ID of the organization
                     type: string
@@ -237,6 +240,9 @@ spec:
                       users should be able to link an existing ZITADEL user with an
                       external account
                     type: boolean
+                  name:
+                    description: (String) Name of the IDP Name of the IDP
+                    type: string
                   scopes:
                     description: (Set of String) the scopes requested by ZITADEL during
                       the request on the identity provider the scopes requested by
@@ -465,6 +471,9 @@ spec:
                       users should be able to link an existing ZITADEL user with an
                       external account
                     type: boolean
+                  name:
+                    description: (String) Name of the IDP Name of the IDP
+                    type: string
                   orgId:
                     description: (String) ID of the organization ID of the organization
                     type: string

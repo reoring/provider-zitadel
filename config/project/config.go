@@ -6,9 +6,7 @@ import "github.com/crossplane/upjet/pkg/config"
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("zitadel_project", func(r *config.Resource) {
 		r.ShortGroup = "project"
-
 		r.ExternalName = config.IdentifierFromProvider
-
 		r.References["org_id"] = config.Reference{
 			TerraformName: "zitadel_org",
 		}

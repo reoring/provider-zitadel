@@ -17,6 +17,7 @@ spec:
     isAutoUpdate: true
     isCreationAllowed: true
     isLinkingAllowed: false
+    name: GitHub
     orgIdSelector:
       matchLabels:
         testing.upbound.io/example-name: zitadel_org

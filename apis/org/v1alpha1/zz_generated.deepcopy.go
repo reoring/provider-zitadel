@@ -95,6 +95,11 @@ func (in *OrgIDPGithubInitParameters) DeepCopyInto(out *OrgIDPGithubInitParamete
 		*out = new(bool)
 		**out = **in
 	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
 	if in.Scopes != nil {
 		in, out := &in.Scopes, &out.Scopes
 		*out = make([]*string, len(*in))
@@ -183,6 +188,11 @@ func (in *OrgIDPGithubObservation) DeepCopyInto(out *OrgIDPGithubObservation) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
 	if in.OrgID != nil {
 		in, out := &in.OrgID, &out.OrgID
 		*out = new(string)
@@ -238,6 +248,11 @@ func (in *OrgIDPGithubParameters) DeepCopyInto(out *OrgIDPGithubParameters) {
 	if in.IsLinkingAllowed != nil {
 		in, out := &in.IsLinkingAllowed, &out.IsLinkingAllowed
 		*out = new(bool)
+		**out = **in
+	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
 		**out = **in
 	}
 	if in.OrgID != nil {
