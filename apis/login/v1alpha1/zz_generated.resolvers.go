@@ -18,7 +18,24 @@ func (mg *LoginPolicy) ResolveReferences(ctx context.Context, c client.Reader) e
 	r := reference.NewAPIResolver(c, mg)
 
 	var rsp reference.ResolutionResponse
+	var mrsp reference.MultiResolutionResponse
 	var err error
+
+	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+		CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.Idps),
+		Extract:       reference.ExternalName(),
+		References:    mg.Spec.ForProvider.IdpsRefs,
+		Selector:      mg.Spec.ForProvider.IdpsSelector,
+		To: reference.To{
+			List:    &v1alpha1.OrgIDPGithubList{},
+			Managed: &v1alpha1.OrgIDPGithub{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Idps")
+	}
+	mg.Spec.ForProvider.Idps = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.ForProvider.IdpsRefs = mrsp.ResolvedReferences
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.OrgID),

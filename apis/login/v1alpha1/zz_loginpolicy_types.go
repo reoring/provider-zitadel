@@ -58,10 +58,6 @@ type LoginPolicyInitParameters struct {
 	// defines if password reset link should be shown in the login screen
 	HidePasswordReset *bool `json:"hidePasswordReset,omitempty" tf:"hide_password_reset,omitempty"`
 
-	// (Set of String) allowed idps to login or register
-	// allowed idps to login or register
-	Idps []*string `json:"idps,omitempty" tf:"idps,omitempty"`
-
 	// (Boolean) defines if unknown username on login screen directly return an error or always display the password screen
 	// defines if unknown username on login screen directly return an error or always display the password screen
 	IgnoreUnknownUsernames *bool `json:"ignoreUnknownUsernames,omitempty" tf:"ignore_unknown_usernames,omitempty"`
@@ -233,8 +229,17 @@ type LoginPolicyParameters struct {
 
 	// (Set of String) allowed idps to login or register
 	// allowed idps to login or register
+	// +crossplane:generate:reference:type=github.com/reoring/provider-zitadel/apis/org/v1alpha1.OrgIDPGithub
 	// +kubebuilder:validation:Optional
 	Idps []*string `json:"idps,omitempty" tf:"idps,omitempty"`
+
+	// References to OrgIDPGithub in org to populate idps.
+	// +kubebuilder:validation:Optional
+	IdpsRefs []v1.Reference `json:"idpsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of OrgIDPGithub in org to populate idps.
+	// +kubebuilder:validation:Optional
+	IdpsSelector *v1.Selector `json:"idpsSelector,omitempty" tf:"-"`
 
 	// (Boolean) defines if unknown username on login screen directly return an error or always display the password screen
 	// defines if unknown username on login screen directly return an error or always display the password screen

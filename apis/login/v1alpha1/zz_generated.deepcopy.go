@@ -93,17 +93,6 @@ func (in *LoginPolicyInitParameters) DeepCopyInto(out *LoginPolicyInitParameters
 		*out = new(bool)
 		**out = **in
 	}
-	if in.Idps != nil {
-		in, out := &in.Idps, &out.Idps
-		*out = make([]*string, len(*in))
-		for i := range *in {
-			if (*in)[i] != nil {
-				in, out := &(*in)[i], &(*out)[i]
-				*out = new(string)
-				**out = **in
-			}
-		}
-	}
 	if in.IgnoreUnknownUsernames != nil {
 		in, out := &in.IgnoreUnknownUsernames, &out.IgnoreUnknownUsernames
 		*out = new(bool)
@@ -411,6 +400,18 @@ func (in *LoginPolicyParameters) DeepCopyInto(out *LoginPolicyParameters) {
 				**out = **in
 			}
 		}
+	}
+	if in.IdpsRefs != nil {
+		in, out := &in.IdpsRefs, &out.IdpsRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.IdpsSelector != nil {
+		in, out := &in.IdpsSelector, &out.IdpsSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.IgnoreUnknownUsernames != nil {
 		in, out := &in.IgnoreUnknownUsernames, &out.IgnoreUnknownUsernames
