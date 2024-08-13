@@ -9,6 +9,7 @@ Copyright 2022 Upbound Inc.
 package v1alpha1
 
 import (
+	"github.com/crossplane/crossplane-runtime/apis/common/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -92,11 +93,6 @@ func (in *OrgIDPGithubInitParameters) DeepCopyInto(out *OrgIDPGithubInitParamete
 	if in.IsLinkingAllowed != nil {
 		in, out := &in.IsLinkingAllowed, &out.IsLinkingAllowed
 		*out = new(bool)
-		**out = **in
-	}
-	if in.OrgID != nil {
-		in, out := &in.OrgID, &out.OrgID
-		*out = new(string)
 		**out = **in
 	}
 	if in.Scopes != nil {
@@ -248,6 +244,16 @@ func (in *OrgIDPGithubParameters) DeepCopyInto(out *OrgIDPGithubParameters) {
 		in, out := &in.OrgID, &out.OrgID
 		*out = new(string)
 		**out = **in
+	}
+	if in.OrgIDRef != nil {
+		in, out := &in.OrgIDRef, &out.OrgIDRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.OrgIDSelector != nil {
+		in, out := &in.OrgIDSelector, &out.OrgIDSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Scopes != nil {
 		in, out := &in.Scopes, &out.Scopes

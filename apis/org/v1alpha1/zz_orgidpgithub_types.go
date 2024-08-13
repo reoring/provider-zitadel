@@ -39,10 +39,6 @@ type OrgIDPGithubInitParameters struct {
 	// enable if users should be able to link an existing ZITADEL user with an external account
 	IsLinkingAllowed *bool `json:"isLinkingAllowed,omitempty" tf:"is_linking_allowed,omitempty"`
 
-	// (String) ID of the organization
-	// ID of the organization
-	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
-
 	// (Set of String) the scopes requested by ZITADEL during the request on the identity provider
 	// the scopes requested by ZITADEL during the request on the identity provider
 	Scopes []*string `json:"scopes,omitempty" tf:"scopes,omitempty"`
@@ -116,8 +112,17 @@ type OrgIDPGithubParameters struct {
 
 	// (String) ID of the organization
 	// ID of the organization
+	// +crossplane:generate:reference:type=github.com/reoring/provider-zitadel/apis/org/v1alpha1.Org
 	// +kubebuilder:validation:Optional
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
+
+	// Reference to a Org in org to populate orgId.
+	// +kubebuilder:validation:Optional
+	OrgIDRef *v1.Reference `json:"orgIdRef,omitempty" tf:"-"`
+
+	// Selector for a Org in org to populate orgId.
+	// +kubebuilder:validation:Optional
+	OrgIDSelector *v1.Selector `json:"orgIdSelector,omitempty" tf:"-"`
 
 	// (Set of String) the scopes requested by ZITADEL during the request on the identity provider
 	// the scopes requested by ZITADEL during the request on the identity provider

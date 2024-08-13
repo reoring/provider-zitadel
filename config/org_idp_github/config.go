@@ -9,5 +9,8 @@ func Configure(p *config.Provider) {
 		// this resource, which would be "github"
 		r.ShortGroup = "org"
 		r.Kind = "OrgIDPGithub"
+		r.References["org_id"] = config.Reference{
+			TerraformName: "zitadel_org",
+		}
 	})
 }
