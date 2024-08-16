@@ -93,6 +93,29 @@ func (in *LoginPolicyInitParameters) DeepCopyInto(out *LoginPolicyInitParameters
 		*out = new(bool)
 		**out = **in
 	}
+	if in.Idps != nil {
+		in, out := &in.Idps, &out.Idps
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
+	if in.IdpsRefs != nil {
+		in, out := &in.IdpsRefs, &out.IdpsRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.IdpsSelector != nil {
+		in, out := &in.IdpsSelector, &out.IdpsSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.IgnoreUnknownUsernames != nil {
 		in, out := &in.IgnoreUnknownUsernames, &out.IgnoreUnknownUsernames
 		*out = new(bool)
@@ -118,6 +141,21 @@ func (in *LoginPolicyInitParameters) DeepCopyInto(out *LoginPolicyInitParameters
 				**out = **in
 			}
 		}
+	}
+	if in.OrgID != nil {
+		in, out := &in.OrgID, &out.OrgID
+		*out = new(string)
+		**out = **in
+	}
+	if in.OrgIDRef != nil {
+		in, out := &in.OrgIDRef, &out.OrgIDRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.OrgIDSelector != nil {
+		in, out := &in.OrgIDSelector, &out.OrgIDSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.PasswordCheckLifetime != nil {
 		in, out := &in.PasswordCheckLifetime, &out.PasswordCheckLifetime

@@ -75,6 +75,7 @@ func (in *OrgIDPGithubInitParameters) DeepCopyInto(out *OrgIDPGithubInitParamete
 		*out = new(string)
 		**out = **in
 	}
+	out.ClientSecretSecretRef = in.ClientSecretSecretRef
 	if in.IsAutoCreation != nil {
 		in, out := &in.IsAutoCreation, &out.IsAutoCreation
 		*out = new(bool)
@@ -99,6 +100,21 @@ func (in *OrgIDPGithubInitParameters) DeepCopyInto(out *OrgIDPGithubInitParamete
 		in, out := &in.Name, &out.Name
 		*out = new(string)
 		**out = **in
+	}
+	if in.OrgID != nil {
+		in, out := &in.OrgID, &out.OrgID
+		*out = new(string)
+		**out = **in
+	}
+	if in.OrgIDRef != nil {
+		in, out := &in.OrgIDRef, &out.OrgIDRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.OrgIDSelector != nil {
+		in, out := &in.OrgIDSelector, &out.OrgIDSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Scopes != nil {
 		in, out := &in.Scopes, &out.Scopes

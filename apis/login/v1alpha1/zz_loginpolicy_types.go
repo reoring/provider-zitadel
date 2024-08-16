@@ -1,7 +1,3 @@
-// SPDX-FileCopyrightText: 2023 The Crossplane Authors <https://crossplane.io>
-//
-// SPDX-License-Identifier: Apache-2.0
-
 /*
 Copyright 2022 Upbound Inc.
 */
@@ -58,6 +54,20 @@ type LoginPolicyInitParameters struct {
 	// defines if password reset link should be shown in the login screen
 	HidePasswordReset *bool `json:"hidePasswordReset,omitempty" tf:"hide_password_reset,omitempty"`
 
+	// (Set of String) allowed idps to login or register
+	// allowed idps to login or register
+	// +crossplane:generate:reference:type=github.com/reoring/provider-zitadel/apis/org/v1alpha1.OrgIDPGithub
+	// +listType=set
+	Idps []*string `json:"idps,omitempty" tf:"idps,omitempty"`
+
+	// References to OrgIDPGithub in org to populate idps.
+	// +kubebuilder:validation:Optional
+	IdpsRefs []v1.Reference `json:"idpsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of OrgIDPGithub in org to populate idps.
+	// +kubebuilder:validation:Optional
+	IdpsSelector *v1.Selector `json:"idpsSelector,omitempty" tf:"-"`
+
 	// (Boolean) defines if unknown username on login screen directly return an error or always display the password screen
 	// defines if unknown username on login screen directly return an error or always display the password screen
 	IgnoreUnknownUsernames *bool `json:"ignoreUnknownUsernames,omitempty" tf:"ignore_unknown_usernames,omitempty"`
@@ -70,7 +80,21 @@ type LoginPolicyInitParameters struct {
 
 	// (Set of String) allowed multi factors
 	// allowed multi factors
+	// +listType=set
 	MultiFactors []*string `json:"multiFactors,omitempty" tf:"multi_factors,omitempty"`
+
+	// (String) ID of the organization
+	// ID of the organization
+	// +crossplane:generate:reference:type=github.com/reoring/provider-zitadel/apis/org/v1alpha1.Org
+	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
+
+	// Reference to a Org in org to populate orgId.
+	// +kubebuilder:validation:Optional
+	OrgIDRef *v1.Reference `json:"orgIdRef,omitempty" tf:"-"`
+
+	// Selector for a Org in org to populate orgId.
+	// +kubebuilder:validation:Optional
+	OrgIDSelector *v1.Selector `json:"orgIdSelector,omitempty" tf:"-"`
 
 	// (String)
 	PasswordCheckLifetime *string `json:"passwordCheckLifetime,omitempty" tf:"password_check_lifetime,omitempty"`
@@ -84,6 +108,7 @@ type LoginPolicyInitParameters struct {
 
 	// (Set of String) allowed second factors
 	// allowed second factors
+	// +listType=set
 	SecondFactors []*string `json:"secondFactors,omitempty" tf:"second_factors,omitempty"`
 
 	// (Boolean) defines if a user is allowed to login with his username and password
@@ -137,6 +162,7 @@ type LoginPolicyObservation struct {
 
 	// (Set of String) allowed idps to login or register
 	// allowed idps to login or register
+	// +listType=set
 	Idps []*string `json:"idps,omitempty" tf:"idps,omitempty"`
 
 	// (Boolean) defines if unknown username on login screen directly return an error or always display the password screen
@@ -151,6 +177,7 @@ type LoginPolicyObservation struct {
 
 	// (Set of String) allowed multi factors
 	// allowed multi factors
+	// +listType=set
 	MultiFactors []*string `json:"multiFactors,omitempty" tf:"multi_factors,omitempty"`
 
 	// (String) ID of the organization
@@ -169,6 +196,7 @@ type LoginPolicyObservation struct {
 
 	// (Set of String) allowed second factors
 	// allowed second factors
+	// +listType=set
 	SecondFactors []*string `json:"secondFactors,omitempty" tf:"second_factors,omitempty"`
 
 	// (Boolean) defines if a user is allowed to login with his username and password
@@ -231,6 +259,7 @@ type LoginPolicyParameters struct {
 	// allowed idps to login or register
 	// +crossplane:generate:reference:type=github.com/reoring/provider-zitadel/apis/org/v1alpha1.OrgIDPGithub
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Idps []*string `json:"idps,omitempty" tf:"idps,omitempty"`
 
 	// References to OrgIDPGithub in org to populate idps.
@@ -257,6 +286,7 @@ type LoginPolicyParameters struct {
 	// (Set of String) allowed multi factors
 	// allowed multi factors
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	MultiFactors []*string `json:"multiFactors,omitempty" tf:"multi_factors,omitempty"`
 
 	// (String) ID of the organization
@@ -289,6 +319,7 @@ type LoginPolicyParameters struct {
 	// (Set of String) allowed second factors
 	// allowed second factors
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	SecondFactors []*string `json:"secondFactors,omitempty" tf:"second_factors,omitempty"`
 
 	// (Boolean) defines if a user is allowed to login with his username and password
@@ -321,13 +352,14 @@ type LoginPolicyStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // LoginPolicy is the Schema for the LoginPolicys API. Resource representing the custom login policy of an organization.
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,zitadel}
 type LoginPolicy struct {
 	metav1.TypeMeta   `json:",inline"`

@@ -1,7 +1,3 @@
-// SPDX-FileCopyrightText: 2023 The Crossplane Authors <https://crossplane.io>
-//
-// SPDX-License-Identifier: Apache-2.0
-
 /*
 Copyright 2022 Upbound Inc.
 */
@@ -23,6 +19,9 @@ type ActionInitParameters struct {
 	// when true, the next action will be called even if this action fails
 	AllowedToFail *bool `json:"allowedToFail,omitempty" tf:"allowed_to_fail,omitempty"`
 
+	// (String)
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
 	// (String) ID of the organization
 	// ID of the organization
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
@@ -43,6 +42,9 @@ type ActionObservation struct {
 
 	// (String) The ID of this resource.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// (String)
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// (String) ID of the organization
 	// ID of the organization
@@ -66,6 +68,10 @@ type ActionParameters struct {
 	// when true, the next action will be called even if this action fails
 	// +kubebuilder:validation:Optional
 	AllowedToFail *bool `json:"allowedToFail,omitempty" tf:"allowed_to_fail,omitempty"`
+
+	// (String)
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// (String) ID of the organization
 	// ID of the organization
@@ -106,18 +112,20 @@ type ActionStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Action is the Schema for the Actions API. Resource representing an action belonging to an organization.
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,zitadel}
 type Action struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.allowedToFail) || (has(self.initProvider) && has(self.initProvider.allowedToFail))",message="spec.forProvider.allowedToFail is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.script) || (has(self.initProvider) && has(self.initProvider.script))",message="spec.forProvider.script is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.timeout) || (has(self.initProvider) && has(self.initProvider.timeout))",message="spec.forProvider.timeout is a required parameter"
 	Spec   ActionSpec   `json:"spec"`

@@ -1,7 +1,3 @@
-// SPDX-FileCopyrightText: 2023 The Crossplane Authors <https://crossplane.io>
-//
-// SPDX-License-Identifier: Apache-2.0
-
 /*
 Copyright 2022 Upbound Inc.
 */
@@ -63,9 +59,35 @@ type ApplicationOIDCInitParameters struct {
 	// Name of the application
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// (String) ID of the organization
+	// ID of the organization
+	// +crossplane:generate:reference:type=github.com/reoring/provider-zitadel/apis/org/v1alpha1.Org
+	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
+
+	// Reference to a Org in org to populate orgId.
+	// +kubebuilder:validation:Optional
+	OrgIDRef *v1.Reference `json:"orgIdRef,omitempty" tf:"-"`
+
+	// Selector for a Org in org to populate orgId.
+	// +kubebuilder:validation:Optional
+	OrgIDSelector *v1.Selector `json:"orgIdSelector,omitempty" tf:"-"`
+
 	// (List of String) Post logout redirect URIs
 	// Post logout redirect URIs
 	PostLogoutRedirectUris []*string `json:"postLogoutRedirectUris,omitempty" tf:"post_logout_redirect_uris,omitempty"`
+
+	// (String) ID of the project
+	// ID of the project
+	// +crossplane:generate:reference:type=github.com/reoring/provider-zitadel/apis/project/v1alpha1.Project
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in project to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in project to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// (List of String) RedirectURIs
 	// RedirectURIs
@@ -284,13 +306,14 @@ type ApplicationOIDCStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // ApplicationOIDC is the Schema for the ApplicationOIDCs API. Resource representing an OIDC application belonging to a project, with all configuration possibilities.
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,zitadel}
 type ApplicationOIDC struct {
 	metav1.TypeMeta   `json:",inline"`

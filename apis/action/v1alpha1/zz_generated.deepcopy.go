@@ -47,6 +47,11 @@ func (in *ActionInitParameters) DeepCopyInto(out *ActionInitParameters) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
 	if in.OrgID != nil {
 		in, out := &in.OrgID, &out.OrgID
 		*out = new(string)
@@ -119,6 +124,11 @@ func (in *ActionObservation) DeepCopyInto(out *ActionObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
 	if in.OrgID != nil {
 		in, out := &in.OrgID, &out.OrgID
 		*out = new(string)
@@ -157,6 +167,11 @@ func (in *ActionParameters) DeepCopyInto(out *ActionParameters) {
 	if in.AllowedToFail != nil {
 		in, out := &in.AllowedToFail, &out.AllowedToFail
 		*out = new(bool)
+		**out = **in
+	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
 		**out = **in
 	}
 	if in.OrgID != nil {

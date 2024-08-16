@@ -53,5 +53,37 @@ func (mg *LoginPolicy) ResolveReferences(ctx context.Context, c client.Reader) e
 	mg.Spec.ForProvider.OrgID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.OrgIDRef = rsp.ResolvedReference
 
+	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+		CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.Idps),
+		Extract:       reference.ExternalName(),
+		References:    mg.Spec.InitProvider.IdpsRefs,
+		Selector:      mg.Spec.InitProvider.IdpsSelector,
+		To: reference.To{
+			List:    &v1alpha1.OrgIDPGithubList{},
+			Managed: &v1alpha1.OrgIDPGithub{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Idps")
+	}
+	mg.Spec.InitProvider.Idps = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.InitProvider.IdpsRefs = mrsp.ResolvedReferences
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.OrgID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.OrgIDRef,
+		Selector:     mg.Spec.InitProvider.OrgIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.OrgList{},
+			Managed: &v1alpha1.Org{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.OrgID")
+	}
+	mg.Spec.InitProvider.OrgID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.OrgIDRef = rsp.ResolvedReference
+
 	return nil
 }

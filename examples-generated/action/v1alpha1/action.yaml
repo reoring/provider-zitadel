@@ -9,6 +9,7 @@ metadata:
 spec:
   forProvider:
     allowedToFail: true
+    name: actionname
     orgId: ${data.zitadel_org.default.id}
     script: testscript
     timeout: 10s
